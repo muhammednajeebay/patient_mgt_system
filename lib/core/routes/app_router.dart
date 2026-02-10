@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:patient_mgt_system/presentation/auth/login_screen.dart';
+import 'package:patient_mgt_system/presentation/register/register_patient_screen.dart';
+import 'package:patient_mgt_system/presentation/splash/splash_screen.dart';
+import 'package:patient_mgt_system/presentation/home/home_screen.dart';
 import '../services/storage_service.dart';
-import '../../ui/splash/splash_screen.dart';
-import '../../ui/auth/login_screen.dart';
-import '../../ui/home/home_screen.dart';
-import '../../ui/register/register_patient_screen.dart';
+
 
 class AppRouter {
   static const String splash = '/';

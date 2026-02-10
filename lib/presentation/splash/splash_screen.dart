@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import '../../core/constants/app_assets.dart';
 import '../../core/routes/app_router.dart';
-import '../../core/services/storage_service.dart';
 import '../../core/utils/app_logger.dart';
+import '../../provider/auth_provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -14,8 +15,6 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  final StorageService _storageService = StorageService();
-
   @override
   void initState() {
     super.initState();
@@ -28,10 +27,12 @@ class _SplashScreenState extends State<SplashScreen> {
 
     if (!mounted) return;
 
-    final hasToken = await _storageService.hasToken();
-    AppLogger.info('Auth check: hasToken = $hasToken');
+    final authProvider = context.read<AuthProvider>();
+    AppLogger.info(
+      'Auth check: isAuthenticated = ${authProvider.isAuthenticated}',
+    );
 
-    if (hasToken) {
+    if (authProvider.isAuthenticated) {
       context.go(AppRouter.home);
     } else {
       context.go(AppRouter.login);
@@ -45,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen> {
         fit: StackFit.expand,
         children: [
           Image.asset(AppAssets.bg, fit: BoxFit.cover),
-          Container(color: Color(0xFF021400).withOpacity(0.6)),
+          Container(color: const Color(0xFF021400).withOpacity(0.6)),
           Center(child: SvgPicture.asset(AppAssets.logoXsSvg, width: 200)),
         ],
       ),
