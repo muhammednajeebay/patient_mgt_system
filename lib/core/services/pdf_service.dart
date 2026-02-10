@@ -21,163 +21,325 @@ class PdfService {
   }) async {
     final pdf = pw.Document();
 
-    // Load logo if available, otherwise use a placeholder
+    // Load logo if available
     pw.MemoryImage? logoImage;
     try {
-      final logoData = await rootBundle.load('assets/logo/logo.png');
+      final logoData = await rootBundle.load('assets/logo/logo_xl.png');
       logoImage = pw.MemoryImage(logoData.buffer.asUint8List());
     } catch (e) {
-      // Fallback if logo is missing
+      // Fallback
     }
 
     pdf.addPage(
       pw.Page(
         pageFormat: PdfPageFormat.a4,
+        margin: const pw.EdgeInsets.all(32),
         build: (pw.Context context) {
-          return pw.Column(
-            crossAxisAlignment: pw.CrossAxisAlignment.start,
+          return pw.Stack(
             children: [
-              // Header
-              pw.Row(
-                mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                children: [
-                  if (logoImage != null)
-                    pw.Image(logoImage, width: 60, height: 60)
-                  else
-                    pw.Container(
-                      width: 60,
-                      height: 60,
-                      color: PdfColors.grey300,
-                    ),
-                  pw.Column(
-                    crossAxisAlignment: pw.CrossAxisAlignment.end,
-                    children: [
-                      pw.Text(
-                        'Amritha Ayurveda Hospital',
-                        style: pw.TextStyle(
-                          fontSize: 18,
-                          fontWeight: pw.FontWeight.bold,
-                          color: PdfColor.fromHex('#2E7D32'),
-                        ),
-                      ),
-                      pw.Text('Kochi, Kerala, 685565'),
-                      pw.Text('Phone: +91 9846123456'),
-                    ],
+              // Watermark
+              if (logoImage != null)
+                pw.Center(
+                  child: pw.Opacity(
+                    opacity: 0.1,
+                    child: pw.Image(logoImage, width: 400),
                   ),
-                ],
-              ),
-              pw.Divider(thickness: 2, color: PdfColors.grey300),
-              pw.SizedBox(height: 20),
-
-              // Patient Info
-              pw.Text(
-                'Registration Receipt',
-                style: pw.TextStyle(
-                  fontSize: 16,
-                  fontWeight: pw.FontWeight.bold,
                 ),
-              ),
-              pw.SizedBox(height: 10),
-              pw.Row(
+
+              pw.Column(
                 crossAxisAlignment: pw.CrossAxisAlignment.start,
                 children: [
-                  pw.Expanded(
-                    child: pw.Column(
-                      crossAxisAlignment: pw.CrossAxisAlignment.start,
-                      children: [
-                        _infoRow('Patient Name:', name),
-                        _infoRow('Phone:', phone),
-                        _infoRow('Address:', address),
-                      ],
-                    ),
-                  ),
-                  pw.Expanded(
-                    child: pw.Column(
-                      crossAxisAlignment: pw.CrossAxisAlignment.start,
-                      children: [
-                        _infoRow('Branch:', branch),
-                        _infoRow('Location:', location),
-                        _infoRow('Date & Time:', dateTime),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              pw.SizedBox(height: 30),
-
-              // Treatments Table
-              pw.Table(
-                border: pw.TableBorder.all(color: PdfColors.grey400),
-                children: [
-                  // Table Header
-                  pw.TableRow(
-                    decoration: pw.BoxDecoration(color: PdfColors.grey200),
+                  // Header
+                  pw.Row(
+                    mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: pw.CrossAxisAlignment.start,
                     children: [
-                      _tableHeader('Treatment Name'),
-                      _tableHeader('Price'),
-                      _tableHeader('Male'),
-                      _tableHeader('Female'),
-                      _tableHeader('Total'),
+                      if (logoImage != null)
+                        pw.Image(logoImage, width: 80, height: 80)
+                      else
+                        pw.Container(
+                          width: 80,
+                          height: 80,
+                          color: PdfColors.grey300,
+                        ),
+                      pw.Column(
+                        crossAxisAlignment: pw.CrossAxisAlignment.end,
+                        children: [
+                          pw.Text(
+                            branch.toUpperCase(),
+                            style: pw.TextStyle(
+                              fontWeight: pw.FontWeight.bold,
+                              fontSize: 14,
+                            ),
+                          ),
+                          pw.SizedBox(height: 4),
+                          pw.Text(
+                            'Cheepunkal P.O. Kumarakom, kottayam, Kerala - 686563',
+                            style: const pw.TextStyle(
+                              fontSize: 10,
+                              color: PdfColors.grey700,
+                            ),
+                          ),
+                          pw.Text(
+                            'e-mail: unknown@gmail.com',
+                            style: const pw.TextStyle(
+                              fontSize: 10,
+                              color: PdfColors.grey700,
+                            ),
+                          ),
+                          pw.Text(
+                            'Mob: +91 9876543210 | +91 9786543210',
+                            style: const pw.TextStyle(
+                              fontSize: 10,
+                              color: PdfColors.grey700,
+                            ),
+                          ),
+                          pw.Text(
+                            'GST No: 32AABXXXXXX1ZW',
+                            style: const pw.TextStyle(
+                              fontSize: 10,
+                              color: PdfColors.grey700,
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
-                  // Table Rows
+                  pw.SizedBox(height: 10),
+                  pw.Divider(thickness: 1, color: PdfColors.grey200),
+                  pw.SizedBox(height: 20),
+
+                  // Patient Details Header
+                  pw.Text(
+                    'Patient Details',
+                    style: pw.TextStyle(
+                      fontSize: 16,
+                      fontWeight: pw.FontWeight.bold,
+                      color: PdfColor.fromHex('#006837'),
+                    ),
+                  ),
+                  pw.SizedBox(height: 12),
+
+                  // Patient Details 2-Column
+                  pw.Row(
+                    crossAxisAlignment: pw.CrossAxisAlignment.start,
+                    children: [
+                      pw.Expanded(
+                        flex: 1,
+                        child: pw.Column(
+                          crossAxisAlignment: pw.CrossAxisAlignment.start,
+                          children: [
+                            _infoRow('Name', name),
+                            _infoRow('Address', address),
+                            _infoRow('WhatsApp Number', phone),
+                          ],
+                        ),
+                      ),
+                      pw.Expanded(
+                        flex: 1,
+                        child: pw.Column(
+                          crossAxisAlignment: pw.CrossAxisAlignment.start,
+                          children: [
+                            _infoRow(
+                              'Booked On',
+                              dateTime.split('-').first +
+                                  ' | ' +
+                                  dateTime.split('-').last,
+                            ),
+                            _infoRow(
+                              'Treatment Date',
+                              DateFormat('dd/MM/yyyy').format(DateTime.now()),
+                            ),
+                            _infoRow(
+                              'Treatment Time',
+                              DateFormat('hh:mm a').format(DateTime.now()),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  pw.SizedBox(height: 20),
+                  _dashedDivider(),
+                  pw.SizedBox(height: 10),
+
+                  // Treatments Header
+                  pw.Row(
+                    children: [
+                      pw.Expanded(flex: 4, child: _headerText('Treatment')),
+                      pw.Expanded(
+                        flex: 2,
+                        child: _headerText('Price', align: pw.TextAlign.center),
+                      ),
+                      pw.Expanded(
+                        flex: 1,
+                        child: _headerText('Male', align: pw.TextAlign.center),
+                      ),
+                      pw.Expanded(
+                        flex: 1,
+                        child: _headerText(
+                          'Female',
+                          align: pw.TextAlign.center,
+                        ),
+                      ),
+                      pw.Expanded(
+                        flex: 2,
+                        child: _headerText('Total', align: pw.TextAlign.right),
+                      ),
+                    ],
+                  ),
+                  pw.SizedBox(height: 10),
+
+                  // Treatments Rows
                   ...treatments.map((t) {
                     final price =
                         double.tryParse(t.treatment.price ?? '0') ?? 0;
-                    return pw.TableRow(
-                      children: [
-                        _tableCell(t.treatment.name ?? ''),
-                        _tableCell(price.toStringAsFixed(2)),
-                        _tableCell(t.male.toString()),
-                        _tableCell(t.female.toString()),
-                        _tableCell(price.toStringAsFixed(2)),
-                      ],
+                    final total = price * (t.male + t.female);
+                    return pw.Padding(
+                      padding: const pw.EdgeInsets.symmetric(vertical: 8),
+                      child: pw.Row(
+                        children: [
+                          pw.Expanded(
+                            flex: 4,
+                            child: pw.Text(
+                              t.treatment.name ?? '',
+                              style: const pw.TextStyle(
+                                color: PdfColors.grey700,
+                              ),
+                            ),
+                          ),
+                          pw.Expanded(
+                            flex: 2,
+                            child: pw.Text(
+                              'Rs. ${price.toInt()}',
+                              textAlign: pw.TextAlign.center,
+                              style: const pw.TextStyle(
+                                color: PdfColors.grey700,
+                              ),
+                            ),
+                          ),
+                          pw.Expanded(
+                            flex: 1,
+                            child: pw.Text(
+                              t.male.toString(),
+                              textAlign: pw.TextAlign.center,
+                              style: const pw.TextStyle(
+                                color: PdfColors.grey700,
+                              ),
+                            ),
+                          ),
+                          pw.Expanded(
+                            flex: 1,
+                            child: pw.Text(
+                              t.female.toString(),
+                              textAlign: pw.TextAlign.center,
+                              style: const pw.TextStyle(
+                                color: PdfColors.grey700,
+                              ),
+                            ),
+                          ),
+                          pw.Expanded(
+                            flex: 2,
+                            child: pw.Text(
+                              'Rs. ${total.toInt()}',
+                              textAlign: pw.TextAlign.right,
+                              style: const pw.TextStyle(
+                                color: PdfColors.grey700,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     );
                   }).toList(),
-                ],
-              ),
-              pw.SizedBox(height: 30),
 
-              // Financial Summary
-              pw.Row(
-                mainAxisAlignment: pw.MainAxisAlignment.end,
-                children: [
-                  pw.Column(
-                    crossAxisAlignment: pw.CrossAxisAlignment.end,
+                  pw.SizedBox(height: 10),
+                  _dashedDivider(),
+                  pw.SizedBox(height: 20),
+
+                  // Financials
+                  pw.Row(
+                    mainAxisAlignment: pw.MainAxisAlignment.end,
                     children: [
-                      _summaryRow('Total Amount:', totalAmount),
-                      _summaryRow('Discount Amount:', discountAmount),
-                      _summaryRow('Advance Amount:', advanceAmount),
-                      pw.Divider(color: PdfColors.grey),
-                      _summaryRow(
-                        'Balance Amount:',
-                        balanceAmount,
-                        isTotal: true,
+                      pw.Column(
+                        crossAxisAlignment: pw.CrossAxisAlignment.end,
+                        children: [
+                          _financeRow('Total Amount', totalAmount),
+                          _financeRow('Discount', discountAmount),
+                          _financeRow('Advance', advanceAmount),
+                          pw.SizedBox(height: 5),
+                          _dashedDivider(width: 200),
+                          pw.SizedBox(height: 5),
+                          _financeRow(
+                            'Balance',
+                            balanceAmount,
+                            isBalance: true,
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
-              ),
 
-              pw.Spacer(),
-              pw.Center(
-                child: pw.Text(
-                  'Thank you for choosing Amritha Ayurveda Hospital',
-                  style: pw.TextStyle(
-                    fontStyle: pw.FontStyle.italic,
-                    color: PdfColors.grey700,
+                  pw.Spacer(),
+
+                  // Footer Message
+                  pw.Row(
+                    mainAxisAlignment: .end,
+                    children: [
+                      pw.Column(
+                        children: [
+                          pw.Text(
+                            'Thank you for choosing us',
+                            style: pw.TextStyle(
+                              color: PdfColor.fromHex('#006837'),
+                              fontWeight: pw.FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                          pw.SizedBox(height: 4),
+                          pw.Text(
+                            'Your well-being is our commitment, and we\'re honored\nyou\'ve entrusted us with your health journey',
+                            textAlign: pw.TextAlign.center,
+                            style: const pw.TextStyle(
+                              fontSize: 9,
+                              color: PdfColors.grey500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                ),
-              ),
-              pw.SizedBox(height: 10),
-              pw.Divider(),
-              pw.Row(
-                mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                children: [
-                  pw.Text(
-                    'Generated on: ${DateFormat('dd/MM/yyyy HH:mm').format(DateTime.now())}',
+                  pw.SizedBox(height: 20),
+
+                  // Signature Placeholder (Stylized Text)
+                  pw.Align(
+                    alignment: pw.Alignment.centerRight,
+                    child: pw.Container(
+                      margin: const pw.EdgeInsets.only(right: 50),
+                      child: pw.Text(
+                        '',
+                        style: pw.TextStyle(
+                          fontStyle: pw.FontStyle.italic,
+                          fontSize: 24,
+                          color: PdfColors.grey800,
+                        ),
+                      ),
+                    ),
                   ),
-                  pw.Text('Authorized Signature'),
+
+                  pw.SizedBox(height: 50),
+                  _dashedDivider(),
+                  pw.SizedBox(height: 8),
+                  pw.Center(
+                    child: pw.Text(
+                      '“Booking amount is non-refundable, and it\'s important to arrive on the allotted time for your treatment”',
+                      style: const pw.TextStyle(
+                        fontSize: 8,
+                        color: PdfColors.grey500,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ],
@@ -186,64 +348,88 @@ class PdfService {
       ),
     );
 
-    // Save or Print the PDF
+    // Save or Print
     await Printing.layoutPdf(
       onLayout: (PdfPageFormat format) async => pdf.save(),
-      name: 'Registration_Receipt_${name.replaceAll(' ', '_')}.pdf',
+      name: 'Receipt_${name.replaceAll(' ', '_')}.pdf',
     );
   }
 
   pw.Widget _infoRow(String label, String value) {
     return pw.Padding(
-      padding: const pw.EdgeInsets.only(bottom: 4),
-      child: pw.RichText(
-        text: pw.TextSpan(
-          children: [
-            pw.TextSpan(
-              text: '$label ',
-              style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+      padding: const pw.EdgeInsets.only(bottom: 8),
+      child: pw.Row(
+        children: [
+          pw.Container(
+            width: 90,
+            child: pw.Text(
+              label,
+              style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 10),
             ),
-            pw.TextSpan(text: value),
-          ],
-        ),
+          ),
+          pw.Text(
+            ':  $value',
+            style: const pw.TextStyle(fontSize: 10, color: PdfColors.grey800),
+          ),
+        ],
       ),
     );
   }
 
-  pw.Widget _tableHeader(String text) {
-    return pw.Padding(
-      padding: const pw.EdgeInsets.all(8),
-      child: pw.Text(text, style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+  pw.Widget _headerText(String text, {pw.TextAlign align = pw.TextAlign.left}) {
+    return pw.Text(
+      text,
+      textAlign: align,
+      style: pw.TextStyle(
+        color: PdfColor.fromHex('#006837'),
+        fontWeight: pw.FontWeight.bold,
+        fontSize: 11,
+      ),
     );
   }
 
-  pw.Widget _tableCell(String text) {
-    return pw.Padding(
-      padding: const pw.EdgeInsets.all(8),
-      child: pw.Text(text),
+  pw.Widget _financeRow(String label, double amount, {bool isBalance = false}) {
+    return pw.Container(
+      width: 200,
+      padding: const pw.EdgeInsets.symmetric(vertical: 2),
+      child: pw.Row(
+        mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+        children: [
+          pw.Text(
+            label,
+            style: pw.TextStyle(
+              fontWeight: isBalance ? pw.FontWeight.bold : pw.FontWeight.normal,
+              fontSize: isBalance ? 14 : 11,
+              color: isBalance ? PdfColors.black : PdfColors.grey900,
+            ),
+          ),
+          pw.Text(
+            'Rs. ${amount.toInt()}',
+            style: pw.TextStyle(
+              fontWeight: isBalance ? pw.FontWeight.bold : pw.FontWeight.normal,
+              fontSize: isBalance ? 14 : 11,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
-  pw.Widget _summaryRow(String label, double amount, {bool isTotal = false}) {
-    return pw.Row(
-      mainAxisSize: pw.MainAxisSize.min,
-      children: [
-        pw.Text(
-          label,
-          style: pw.TextStyle(
-            fontWeight: isTotal ? pw.FontWeight.bold : pw.FontWeight.normal,
-            fontSize: isTotal ? 14 : 12,
+  pw.Widget _dashedDivider({double? width}) {
+    return pw.Container(
+      width: width,
+      child: pw.Row(
+        children: List.generate(
+          50,
+          (index) => pw.Expanded(
+            child: pw.Container(
+              height: 1,
+              color: PdfColors.grey300,
+              margin: const pw.EdgeInsets.symmetric(horizontal: 1),
+            ),
           ),
         ),
-        pw.SizedBox(width: 20),
-        pw.Text(
-          'Rs. ${amount.toStringAsFixed(2)}',
-          style: pw.TextStyle(
-            fontWeight: isTotal ? pw.FontWeight.bold : pw.FontWeight.normal,
-            fontSize: isTotal ? 14 : 12,
-          ),
-        ),
-      ],
+      ),
     );
   }
 }
