@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:patient_mgt_system/core/constants/app_colors.dart';
 
 class AppTheme {
@@ -8,6 +7,7 @@ class AppTheme {
       useMaterial3: true,
       primaryColor: AppColors.primary,
       scaffoldBackgroundColor: Colors.white,
+      fontFamily: 'Poppins',
 
       colorScheme: const ColorScheme.light(
         primary: AppColors.primary,
@@ -16,97 +16,98 @@ class AppTheme {
         error: AppColors.error,
       ),
 
-      textTheme: TextTheme(
+      textTheme: const TextTheme(
         // Display Styles
-        displayLarge: GoogleFonts.poppins(
+        displayLarge: TextStyle(
           fontSize: 32,
           fontWeight: FontWeight.bold,
           color: AppColors.textPrimary,
         ),
-        displayMedium: GoogleFonts.poppins(
+        displayMedium: TextStyle(
           fontSize: 28,
           fontWeight: FontWeight.bold,
           color: AppColors.textPrimary,
         ),
-        displaySmall: GoogleFonts.poppins(
+        displaySmall: TextStyle(
           fontSize: 24,
           fontWeight: FontWeight.bold,
           color: AppColors.textPrimary,
         ),
 
         // Headline Styles
-        headlineLarge: GoogleFonts.poppins(
+        headlineLarge: TextStyle(
           fontSize: 22,
           fontWeight: FontWeight.w600,
           color: AppColors.textPrimary,
         ),
-        headlineMedium: GoogleFonts.poppins(
+        headlineMedium: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.w600,
           color: AppColors.textPrimary,
         ),
-        headlineSmall: GoogleFonts.poppins(
+        headlineSmall: TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.w600,
           color: AppColors.textPrimary,
         ),
 
         // Title Styles
-        titleLarge: GoogleFonts.poppins(
+        titleLarge: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w600,
           color: AppColors.textPrimary,
         ),
-        titleMedium: GoogleFonts.poppins(
+        titleMedium: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w500,
           color: AppColors.textPrimary,
         ),
-        titleSmall: GoogleFonts.poppins(
+        titleSmall: TextStyle(
           fontSize: 12,
           fontWeight: FontWeight.w500,
           color: AppColors.textPrimary,
         ),
 
         // Body Styles
-        bodyLarge: GoogleFonts.poppins(
+        bodyLarge: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.normal,
           color: AppColors.textPrimary,
         ),
-        bodyMedium: GoogleFonts.poppins(
+        bodyMedium: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.normal,
           color: AppColors.textSecondary,
         ),
-        bodySmall: GoogleFonts.poppins(
+        bodySmall: TextStyle(
           fontSize: 12,
           fontWeight: FontWeight.normal,
           color: AppColors.textSecondary,
         ),
 
         // Label Styles
-        labelLarge: GoogleFonts.poppins(
+        labelLarge: TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w600,
           color: AppColors.textPrimary,
         ),
-        labelSmall: GoogleFonts.poppins(
+        labelSmall: TextStyle(
           fontSize: 10,
           fontWeight: FontWeight.w400,
           color: AppColors.textSecondary,
         ),
       ),
 
-      appBarTheme: AppBarTheme(
+      appBarTheme: const AppBarTheme(
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: false,
-        iconTheme: const IconThemeData(color: AppColors.textPrimary),
-        titleTextStyle: GoogleFonts.poppins(
+        iconTheme: IconThemeData(color: AppColors.textPrimary),
+        titleTextStyle: TextStyle(
           color: AppColors.textPrimary,
           fontSize: 20,
           fontWeight: FontWeight.w600,
+          fontFamily: 'Poppins',
         ),
       ),
 
@@ -116,9 +117,10 @@ class AppTheme {
           foregroundColor: Colors.white,
           minimumSize: const Size(double.infinity, 50),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          textStyle: GoogleFonts.poppins(
+          textStyle: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
+            fontFamily: 'Poppins',
           ),
         ),
       ),
@@ -142,9 +144,10 @@ class AppTheme {
           horizontal: 16,
           vertical: 16,
         ),
-        hintStyle: GoogleFonts.poppins(
+        hintStyle: TextStyle(
           color: AppColors.textSecondary.withOpacity(0.5),
           fontSize: 14,
+          fontFamily: 'Poppins',
         ),
       ),
 
