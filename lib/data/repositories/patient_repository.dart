@@ -23,4 +23,18 @@ class PatientRepository {
       rethrow;
     }
   }
+
+  Future<ApiResponse> registerPatient(Map<String, String> data) async {
+    try {
+      AppLogger.info('Registering patient with FormData: $data');
+      final response = await _apiHelper.postFormData(
+        ApiConstants.patientUpdate,
+        data,
+      );
+      return response;
+    } catch (e) {
+      AppLogger.error('PatientRepository registerPatient Exception: $e');
+      return ApiResponse(statusCode: 500, error: e.toString());
+    }
+  }
 }

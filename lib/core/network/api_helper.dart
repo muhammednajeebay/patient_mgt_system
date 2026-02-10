@@ -82,6 +82,8 @@ class ApiHelper {
 
       final headers = await _getHeaders(requiresAuth);
       request.headers.addAll(headers);
+      request.headers.remove('Content-Type');
+
       request.fields.addAll(body);
 
       AppLogger.info('POST FormData Request: $url');

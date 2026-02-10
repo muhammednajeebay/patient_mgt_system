@@ -5,19 +5,18 @@ import 'core/routes/app_router.dart';
 import 'core/theme/app_theme.dart';
 import 'provider/auth_provider.dart';
 import 'provider/patient_provider.dart';
+import 'provider/registration_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
 
-  final authProvider = AuthProvider();
-  await authProvider.checkInitialAuth();
-
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider.value(value: authProvider),
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => PatientProvider()),
+        ChangeNotifierProvider(create: (_) => RegistrationProvider()),
       ],
       child: const MyApp(),
     ),
