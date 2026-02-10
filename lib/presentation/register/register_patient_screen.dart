@@ -14,6 +14,7 @@ import 'widgets/registration_widgets.dart';
 import 'widgets/treatment_item_card.dart';
 import 'widgets/payment_options_widget.dart';
 import 'widgets/date_time_selector.dart';
+import '../common/widgets/skeleton_loaders.dart';
 
 class RegisterPatientScreen extends StatefulWidget {
   const RegisterPatientScreen({super.key});
@@ -53,7 +54,7 @@ class _RegisterPatientScreenState extends State<RegisterPatientScreen> {
       body: Consumer<RegistrationProvider>(
         builder: (context, provider, child) {
           if (provider.isLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return const RegistrationSkeleton();
           }
 
           return SingleChildScrollView(

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:patient_mgt_system/presentation/home/widgets/empty_state_widget.dart';
 import 'package:patient_mgt_system/presentation/home/widgets/patient_card.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import '../../core/constants/app_colors.dart';
 import '../../core/routes/app_router.dart';
 import '../../provider/patient_provider.dart';
+import '../common/widgets/skeleton_loaders.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -147,10 +149,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: DropdownButtonHideUnderline(
                             child: DropdownButton<PatientSortBy>(
                               value: provider.sortBy,
-                              icon: const Icon(
-                                Icons.keyboard_arrow_down,
-                                
-                              ),
+                              icon: const Icon(Icons.keyboard_arrow_down),
                               items: const [
                                 DropdownMenuItem(
                                   value: PatientSortBy.date,
@@ -183,11 +182,24 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   Expanded(
                     child: provider.isLoading
-                        ? const Center(child: CircularProgressIndicator())
+                        ? const PatientListSkeleton()
                         : provider.error != null
                         ? Center(child: Text(provider.error!))
                         : provider.patients.isEmpty
-                        ? const Center(child: Text('No patients found'))
+                        ? EmptyStateWidget(
+                            subtext: _searchController.text.isNotEmpty
+                                ? 'No results found for "${_searchController.text}".'
+                                : 'Try adjusting your search or register a new patient to get started.',
+                            actionLabel: _searchController.text.isNotEmpty
+                                ? 'Clear Search'
+                                : null,
+                            onActionPressed: _searchController.text.isNotEmpty
+                                ? () {
+                                    _searchController.clear();
+                                    provider.searchPatients('');
+                                  }
+                                : null,
+                          )
                         : RefreshIndicator(
                             onRefresh: provider.fetchPatients,
                             child: ListView.builder(
