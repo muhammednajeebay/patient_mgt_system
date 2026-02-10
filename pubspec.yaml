@@ -45,6 +45,7 @@ dependencies:
   google_fonts: ^6.1.0
   intl: ^0.19.0
   equatable: ^2.0.5
+  flutter_dotenv: ^5.1.0
 
 dev_dependencies:
   flutter_test:
@@ -66,6 +67,7 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   assets:
+    - .env
     - assets/image/
     - assets/logo/
     - assets/svg/icons/

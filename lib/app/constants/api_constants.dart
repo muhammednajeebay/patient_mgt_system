@@ -1,5 +1,8 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 class ApiConstants {
-  static const String baseUrl = 'https://flutter-amr.noviindus.in/api/';
+  static String get baseUrl =>
+      dotenv.env['BASE_URL'] ?? 'https://flutter-amr.noviindus.in/api/';
 
   static const String login = 'Login';
   static const String patientList = 'PatientList';
