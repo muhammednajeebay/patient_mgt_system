@@ -21,6 +21,12 @@ class _SplashScreenState extends State<SplashScreen> {
     _navigateToNext();
   }
 
+  @override
+  void didChangeDependencies() {
+    precacheImage(const AssetImage(AppAssets.bg), context);
+    super.didChangeDependencies();
+  }
+
   Future<void> _navigateToNext() async {
     AppLogger.log('Splash Screen loaded, waiting...');
     await Future.delayed(const Duration(seconds: 2));
@@ -42,10 +48,11 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFF021400),
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset(AppAssets.bg, fit: BoxFit.cover),
+          Image.asset(AppAssets.bg, fit: BoxFit.cover,),
           Container(color: const Color(0xFF021400).withOpacity(0.6)),
           Center(child: SvgPicture.asset(AppAssets.logoXsSvg, width: 200)),
         ],

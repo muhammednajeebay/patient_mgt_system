@@ -72,13 +72,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     image: DecorationImage(
                       image: AssetImage(AppAssets.bg),
                       fit: BoxFit.cover,
+                      // colorFilter: ColorFilter.mode(
+                      //   Color(0xFF021400),
+                      //   BlendMode.darken,
+                      // ),
                     ),
                   ),
-                ),
-                Container(
-                  height: 250,
-                  width: double.infinity,
-                  color: const Color(0xFF021400).withOpacity(0.6),
                 ),
                 Positioned.fill(
                   child: Center(

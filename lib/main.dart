@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'core/routes/app_router.dart';
 import 'core/theme/app_theme.dart';
 import 'provider/auth_provider.dart';
+import 'provider/patient_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,7 +17,7 @@ Future<void> main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider.value(value: authProvider),
-        // Add other providers here as they are implemented
+        ChangeNotifierProvider(create: (_) => PatientProvider()),
       ],
       child: const MyApp(),
     ),
